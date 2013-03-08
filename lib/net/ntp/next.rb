@@ -2,8 +2,20 @@ require 'net/ntp'
 require 'net/ntp/next/version'
 
 
+# Networking module
 module Net
+    # NTP module
+    #
+    # ```ruby
+    #   r = Net::NTP::get # returns Response class
+    #   r.time # time
+    # ```
     module NTP
+        # Get time information from NTP server
+        # @param host [String] NTP server hostname or IP
+        # @param port [String, Fixnum] NTP server port
+        # @param timeout [Fixnum]
+        # @return [Response]
         def self.get(host='pool.ntp.org', port='ntp', timeout=TIMEOUT)
             sock = UDPSocket.new
             sock.connect(host, port)
@@ -30,6 +42,8 @@ module Net
             Response.new(data, startTime, endTime)
         end
 
+        # Time information Response class
+        # Will be returned from `Net::NTP::get`
         class Response
             def initialize(raw_data, startTime=0, endTime=0)
                 @raw_data             = raw_data
@@ -39,14 +53,20 @@ module Net
                 @endTime = endTime
             end
 
+            # Latency
+            # @return [Float]
             def latency
                 @endTime-@startTime
             end
 
+            # Difference between current time and real time
+            # @return [Float]
             def timeDifference
                 receive_timestamp-@startTime
             end
 
+            # Time difference without latency
+            # @return [Float]
             def realDifference
                 timeDifference-(latency/2)
             end
