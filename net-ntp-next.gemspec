@@ -11,6 +11,7 @@ Gem::Specification.new do |gem|
     gem.email         = ['davispuh@gmail.com']
     gem.description   = 'NTP client library with improved functionality.'
     gem.summary       = 'Improved NTP client library.'
+    gem.homepage      = 'https://github.com/davispuh/net-ntp-next'
     gem.license       = 'UNLICENSE'
 
     gem.files         = `git ls-files`.split($/)
